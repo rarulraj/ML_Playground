@@ -24,6 +24,31 @@ class NumpyML:
         if det == 0:
             raise ValueError("Matrix is not invertible (determinant is zero).")
         return np.linalg.inv(a)
+    def matrix_Eigen(self, A):
+        eigenvalues, eigenvectors = np.linalg.eig(A)
+        return eigenvalues, eigenvectors
+    def matrix_SVD(self, A):
+        U, S, Vt = np.linalg.svd(A)
+        return U, S, Vt
+    def gradient_descent(self, X, y, theta, learning_rate=0.01, iterations=1000):
+        m = len(y)  
+        for _ in range(iterations):
+            gradient = (1/m) * np.dot(X.T, (np.dot(X, theta) - y))  
+            theta -= learning_rate * gradient  
+        return theta
+    def sigmoid(self, z):
+        return 1 / (1 + np.exp(-z))
+
+    def logistic_regression(self, X, y, theta, learning_rate=0.01, iterations=1000):
+        m = len(y)
+        for _ in range(iterations):
+            z = np.dot(X, theta)
+            predictions = self.sigmoid(z)
+            gradient = (1/m) * np.dot(X.T, (predictions - y))
+            theta -= learning_rate * gradient
+        return theta
+
+
 
 ml = NumpyML()
 
